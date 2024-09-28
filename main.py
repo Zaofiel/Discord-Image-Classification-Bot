@@ -2,6 +2,7 @@
 import config, discord
 from discord.ext import commands
 from model import *
+import os
 
 description = '''An example bot to showcase the discord.ext.commands extension
 module.
@@ -23,8 +24,9 @@ async def check(ctx):
             file_url=i.url
             await i.save(f'images/{i.filename}')
             await ctx.send(f'Мы сохранили файл{i.filename}')
-            name, procent = detect_bird(img=f'images/{i.filename}', model='pet_progect-main\keras_model.h5', label='pet_progect-main\labels.txt')
+            name = detect_bird(img=f'images/{i.filename}', model='pet_progect-main\keras_model.h5', label='pet_progect-main\labels.txt')
             await ctx.send(name)
+            os.remove(f'images/{i.filename}')
     else:
         await ctx.send("У вас нет фото :(")
 
